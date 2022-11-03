@@ -70,6 +70,20 @@ std::set<std::vector<T>> permutations_without_repetitions(std::set<T> &s) {
     return ans;
 }
 
+template<typename T>
+std::set<std::vector<T>> arrangements_without_repetitions(std::set<T> &s, int k) {
+    int n = s.size();
+    std::set<std::set<T>> combs = combinations(s, k);
+    std::set<std::vector<T>> ans;
+    for (auto &x: combs) {
+        std::set<std::vector<T>> perms = permutations_without_repetitions(x);
+        for (auto &y: perms) {
+            ans.insert(y);
+        }
+    }
+    return ans;
+}
+
 int main() {
     std::set<char> s = {'a', 'b'};
 
