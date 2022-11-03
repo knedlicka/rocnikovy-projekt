@@ -3,32 +3,36 @@
 #include <algorithm>
 #include <iostream>
 
-std::set<std::set<int>> combinations(std::set<int> s, int sz) {
+template <typename T>
+
+std::set<std::set<T>> combinations(std::set<T> s, int sz) {
     int n = s.size();
-    std::vector<int> indexed_set(n);
+    std::vector<T> indexed_set(n);
     std::copy(s.begin(), s.end(), indexed_set.begin());
-    std::vector<int> combs(n, 0);
+    std::vector<int> combination(n, 0);
 
     for (int i = n - 1; i >= n - sz; i--) {
-        combs[i] = 1;
+        combination[i] = 1;
     }
 
     std::set<std::set<int>> ans;
     do {
         std::set<int> inst;
         for (int i = 0; i < n; i++) {
-            if (combs[i]) {
+            if (combination[i]) {
                 inst.insert(indexed_set[i]);
             }
         }
         ans.insert(inst);
-    } while (std::next_permutation(combs.begin(), combs.end()));
+    } while (std::next_permutation(combination.begin(), combination.end()));
 
     return ans;
 }
 
-void print_combinations(std::set<int> s, int sz){
-    std::set<std::set<int>> combs = combinations(s, sz);
+template <typename T>
+
+void print_combinations(std::set<T> s, int sz){
+    std::set<std::set<T>> combs = combinations(s, sz);
     for (auto x: combs) {
         std::cout << "{ ";
         for (auto y: x) {
@@ -40,7 +44,7 @@ void print_combinations(std::set<int> s, int sz){
 
 int main() {
 
-    print_combinations({1, 2}, 1);
+    print_combinations<int>({1, 2}, 1);
 
     return 0;
 }
