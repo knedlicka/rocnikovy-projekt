@@ -42,9 +42,37 @@ void print_combinations(std::set<T> s, int sz){
     }
 }
 
-int main() {
 
-    print_combinations<int>({1, 2}, 1);
+template<typename T>
+std::multiset<std::vector<T>> permutations_with_repetitions(std::multiset<T> &s) {
+    int n = s.size();
+    std::vector<T> permutation_with_rep(n);
+    std::copy(s.begin(), s.end(), permutation_with_rep.begin());
+    sort(permutation_with_rep.begin(), permutation_with_rep.end());
+    std::vector<std::pair<T, int>> permutation(n);
+    for (int i = 0; i < n; i++) {
+        permutation[i] = {permutation_with_rep[i], i};
+    }
+    std::set<std::vector<T>> ans;
+    std::vector<T> inst(n);
+    do {
+        for (int i = 0; i < n; i++) {
+            inst[i] = permutation[i].first;
+        }
+        ans.insert(inst);
+    } while (std::next_permutation(permutation.begin(), permutation.end()));
+    return ans;
+}
+
+template<typename T>
+std::set<std::vector<T>> permutations_without_repetitions(std::set<T> &s) {
+    return permutations_with_repetitions(s);
+}
+
+
+int main() {
+    std::set<char> s = {'a', 'b'};
+    print_combinations<char>(s, 1);
 
     return 0;
 }
