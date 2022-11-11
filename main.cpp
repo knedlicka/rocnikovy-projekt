@@ -70,8 +70,30 @@ std::set<std::vector<T>> permutations_without_repetitions(std::set<T> &s) {
     return ans;
 }
 
+
+template<typename T>
+std::multiset<std::vector<T>> arrangements_with_repetitions(std::multiset<T> &s, int k){
+    std::set<std::multiset<T>> k_tuples = combinations_with_repetitions(s, k);
+    std::multiset<std::vector<T>> arrangements;
+    for(auto k_tuple : k_tuples){
+        std::multiset<std::vector<T>> permutations = permutations_with_repetitions(k_tuple);
+        for(auto arr : permutations){
+            arrangements.insert(arr);
+        }
+    }
+    return arrangements;
+}
+
+template<typename T>
+std::set<std::vector<T>> arrangements_without_repetitions(std::set<T> &s, int k) {
+    std::multiset<T> ms(s.begin(), s.end());
+    std::multiset<std::vector<T>> ans_multiset = arrangements_with_repetitions(ms, k);
+    std::set<std::vector<T>> arrangements(ans_multiset.begin(), ans_multiset.end());
+    return arrangements;
+}
+
 int main() {
     std::set<char> s = {'a', 'b'};
-
+    
     return 0;
 }
