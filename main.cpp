@@ -4,7 +4,7 @@
 #include <iostream>
 
 template<typename T>
-std::set<std::set<T>> combinations(std::set<T> &s, int k) {
+std::set<std::multiset<T>> combinations_with_repetitions(std::multiset<T> &s, int k) {
     int n = s.size();
     std::vector<T> indexed_set(n);
     std::copy(s.begin(), s.end(), indexed_set.begin());
@@ -14,9 +14,9 @@ std::set<std::set<T>> combinations(std::set<T> &s, int k) {
         combination[i] = 1;
     }
 
-    std::set<std::set<T>> ans;
+    std::set<std::multiset<T>> ans;
     do {
-        std::set<T> inst;
+        std::multiset<T> inst;
         for (int i = 0; i < n; i++) {
             if (combination[i]) {
                 inst.insert(indexed_set[i]);
@@ -27,19 +27,6 @@ std::set<std::set<T>> combinations(std::set<T> &s, int k) {
 
     return ans;
 }
-
-template<typename T>
-void print_combinations(std::set<T> &s, int k) {
-    std::set<std::set<T>> combs = combinations(s, k);
-    for (auto &x: combs) {
-        std::cout << "{ ";
-        for (auto &y: x) {
-            std::cout << y << " ";
-        }
-        std::cout << "}\n";
-    }
-}
-
 
 template<typename T>
 std::multiset<std::vector<T>> permutations_with_repetitions(std::multiset<T> &s) {
@@ -64,12 +51,14 @@ std::multiset<std::vector<T>> permutations_with_repetitions(std::multiset<T> &s)
 
 template<typename T>
 std::set<std::vector<T>> permutations_without_repetitions(std::set<T> &s) {
-    return permutations_with_repetitions(s);
+    std::multiset<T> ms(s.begin(), s.end());
+    std::multiset<std::vector<T>> ans_multiset = permutations_with_repetitions(ms);
+    std::set<std::vector<T>> ans(ans_multiset.begin(), ans_multiset.end());
+    return ans;
 }
 
 int main() {
     std::set<char> s = {'a', 'b'};
-    print_combinations<char>(s, 1);
 
     return 0;
 }
