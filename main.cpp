@@ -29,6 +29,19 @@ std::set<std::multiset<T>> combinations_with_repetitions(std::multiset<T> &s, in
 }
 
 template<typename T>
+std::set<std::set<T>> combinations_without_repetitions(std::set<T> &s, int k) {
+    std::multiset<T> ms(s.begin(), s.end());
+    // s has no duplicates -> ms has no duplicates -> if x in combinations_with_repetitions(ms, k), then x has no duplicates
+    std::set<std::multiset<T>> ans_multiset = combinations_with_repetitions(ms, k);
+    std::set<std::set<T>> ans;
+    for(auto x : ans_multiset){
+        std::set<T> temp(x.begin(), x.end());
+        ans.insert(temp);
+    }
+    return ans;
+}
+
+template<typename T>
 std::multiset<std::vector<T>> permutations_with_repetitions(std::multiset<T> &s) {
     int n = s.size();
     std::vector<T> permutation_with_rep(n);
