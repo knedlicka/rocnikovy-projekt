@@ -1,7 +1,7 @@
 #include "Tests.h"
 
 int main() {
-    Tests::runTests();
+    runTests();
 
     return 0;
 }
