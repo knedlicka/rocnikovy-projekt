@@ -6,6 +6,13 @@
 #include <algorithm>
 #include <iostream>
 
+
+/**
+ * Generate all combinations with repetitions of k elements from a set of n elements
+ * @param s a set of type std::set<T> that contains elements of type T
+ * @param k an integer number of elements to be included in each combination
+ * @return a set of type std::set<std::multiset<T>> that contains all combinations
+ */
 template<typename T>
 static std::set<std::multiset<T>> combinations_with_repetitions(std::set<T> &s, int k) {
     int n = s.size();
@@ -38,6 +45,12 @@ static std::set<std::multiset<T>> combinations_with_repetitions(std::set<T> &s, 
     return ans;
 }
 
+/**
+ * Generate all combinations without repetitions of k elements from a set of n elements
+ * @param s a set of type std::set<T> that contains elements of type T
+ * @param k an integer number of elements to be included in each combination
+ * @return a set of type std::set<std::multiset<T>> that contains all combinations
+ */
 template<typename T>
 static std::set<std::set<T>> combinations_without_repetitions(std::set<T> &s, int k) {
     int n = s.size();
@@ -63,6 +76,11 @@ static std::set<std::set<T>> combinations_without_repetitions(std::set<T> &s, in
     return ans;
 }
 
+/**
+ * Generate all permutations with repetitions of a set of n elements
+ * @param s a set of type std::set<T> that contains n elements of type T
+ * @return a set of type std::set<std::multiset<T>> that contains all permutations with repetitions
+ */
 template<typename T>
 static std::set<std::vector<T>> permutations_with_repetitions(std::multiset<T> &s) {
     int n = s.size();
@@ -76,12 +94,23 @@ static std::set<std::vector<T>> permutations_with_repetitions(std::multiset<T> &
     return ans;
 }
 
+/**
+ * Generate all permutations without repetitions of a set
+ * @param s a set of type std::set<T> that contains elements of type T
+ * @return a set of type std::set<std::vector<T>> that contains all permutations without repetitions
+ */
 template<typename T>
 static std::set<std::vector<T>> permutations_without_repetitions(std::set<T> &s) {
     std::multiset<T> ms(s.begin(), s.end());
     return permutations_with_repetitions(ms);
 }
 
+/**
+ * Generate all arrangements with repetitions of a set
+ * @param s a set of type std::set<T> that contains elements of type T
+ * @param k an integer number of elements to be included in each arrangement
+ * @return a set of type std::set<std::vector<T>> that contains all permutations with repetitions
+ */
 template<typename T>
 static std::multiset<std::vector<T>> arrangements_with_repetitions(std::set<T> &s, int k){
     std::set<std::multiset<T>> k_tuples = combinations_with_repetitions(s, k);
@@ -95,6 +124,12 @@ static std::multiset<std::vector<T>> arrangements_with_repetitions(std::set<T> &
     return arrangements;
 }
 
+/**
+ * Generate all arrangements without repetitions of a set
+ * @param s a set of type std::set<T> that contains elements of type T
+ * @param k an integer number of elements to be included in each arrangement
+ * @return a set of type std::set<std::vector<T>> that contains all permutations without repetitions
+ */
 template<typename T>
 static std::set<std::vector<T>> arrangements_without_repetitions(std::set<T> &s, int k) {
     std::set<std::set<T>> k_tuples = combinations_without_repetitions(s, k);
