@@ -10,7 +10,32 @@
 #include <set>
 #include <algorithm>
 #include <iostream>
+/**
+ * Helper function for combinations_with_repetitions
+ * @tparam T Type of elements from which combinations are formed
+ * @param it Iterator to the first element of the set to be used for combinations
+ * @param end_it Iterator to the end of the set to be used for combinations
+ * @param k An integer, the size of the combinations
+ * @param combinations The set in which the combinations will be stored
+ * @param combination Accumulator for the current combination
+ */
 
+template<typename T>
+void generate_combinations_with_repetitions_(typename std::set<T>::iterator it, typename std::set<T>::iterator end_it, int k, std::set<std::multiset<T>> &combinations, std::multiset<T> &combination) {
+    if(it == end_it) {
+        return;
+    }
+    if (combination.size() == k) {
+        combinations.insert(combination);
+    } else {
+        auto next_it = it;
+        next_it++;
+        generate_combinations_with_repetitions_(next_it, end_it, k, combinations, combination);
+        combination.insert(*it);
+        generate_combinations_with_repetitions_(it, end_it, k, combinations, combination);
+        combination.erase(combination.find(*it));
+    }
+}
 
 /**
  * Generate all combinations with repetitions of k elements from a given set
@@ -21,37 +46,12 @@
  */
 template<typename T>
 std::set<std::multiset<T>> combinations_with_repetitions(std::set<T> &s, int k) {
-    int n = s.size();
-    std::multiset<T> extended_s;
-    // Extend the set to have each element k times
-    for(auto x : s) {
-        for(int i = 0; i < k; i++) {
-            extended_s.insert(x);
-        }
-    }
-    std::vector<T> indexed_set(n * k);
-    std::copy(extended_s.begin(), extended_s.end(), indexed_set.begin());
-    std::vector<int> combination(n * k, 0);
-    // Start with lexographically first combination
-    for (int i = (n * k) - 1; i >= (n * k) - k; i--) {
-        combination[i] = 1;
-    }
-
-
     std::set<std::multiset<T>> ans;
-    // Generate all combinations
-    do {
-        std::multiset<T> inst;
-        for (int i = 0; i < n * k; i++) {
-            if (combination[i]) {
-                inst.insert(indexed_set[i]);
-            }
-        }
-        ans.insert(inst);
-    } while (std::next_permutation(combination.begin(), combination.end()));
-
+    std::multiset<T> combination;
+    generate_combinations_with_repetitions_(s.begin(), s.end(), k, ans, combination);
     return ans;
 }
+
 
 /**
  * Generate all combinations without repetitions of k elements from a given set
@@ -163,6 +163,5 @@ std::set<std::vector<T>> arrangements_without_repetitions(std::set<T> &s, int k)
     }
     return arrangements;
 }
-
 
 #endif //RP_COMBINATORICS_H
