@@ -164,22 +164,38 @@ std::set<std::vector<T>> arrangements_without_repetitions(std::set<T> &s, int k)
     return arrangements;
 }
 
-/**
- * Generate set of all pairs of elements from two given sets
- * @tparam T type of elements in the sets
- * @param s1
- * @param s2
- * @return A set of pairs of cartesian product of two given sets
- */
-template<typename T, typename U>
-std::set<std::pair<T, U>> cartesian_product(std::set<T> &s1, std::set<U> &s2) {
-    std::set<std::pair<T, U>> ans;
-    for (auto &i : s1) {
-        for (auto &j : s2) {
-            ans.insert({i, j});
-        }
-    }
-    return ans;
-}
 
+
+template<typename T>
+class Solution {
+    std::set<std::multiset<T>> sol_type_set_of_multisets;
+    std::set<std::set<T>> sol_type_set_of_sets;
+    std::set<std::vector<T>> sol_type_set_of_vectors;
+    std::multiset<std::vector<T>> sol_type_multiset_of_vectors;
+
+    public:
+    void fill(std::set<std::multiset<T>> sol) {
+        this-> sol_type_set_of_multisets = sol;
+    }
+
+    void fill(std::set<std::set<T>> sol) {
+        this-> sol_type_set_of_sets = sol;
+    }
+
+    void fill(std::set<std::vector<T>> sol) {
+        this-> sol_type_set_of_vectors = sol;
+    }
+
+    void fill(std::multiset<std::vector<T>> sol) {
+        this-> sol_type_multiset_of_vectors = sol;
+    }
+
+    bool operator==(const Solution<T> &other) const {
+        return this->sol_type_set_of_multisets == other.sol_type_set_of_multisets &&
+               this->sol_type_set_of_sets == other.sol_type_set_of_sets &&
+               this->sol_type_set_of_vectors == other.sol_type_set_of_vectors &&
+               this->sol_type_multiset_of_vectors == other.sol_type_multiset_of_vectors;
+    }
+
+};
 #endif //RP_COMBINATORICS_H
