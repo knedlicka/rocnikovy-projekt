@@ -166,6 +166,26 @@ std::set <std::vector<T>> arrangements_without_repetitions(std::set <T> &s, int 
     return arrangements;
 }
 
+/**
+ * Generate difference of two objects
+ * @tparam T Type of the first object
+ * @tparam U Type of the second object
+ * @param s1 The first object
+ * @param s2 The Second object
+ * @return Difference of s1 and s2
+ */
+template<typename T, typename U>
+T difference(T &s1, U &s2) {
+    T diff;
+    for (auto x: s1) {
+        if (s2.find(x) == s2.end()) {
+            diff.insert(x);
+        } else {
+            s2.erase(s2.find(x));
+        }
+    }
+    return diff;
+}
 
 /**
  * Generate difference of two objects
