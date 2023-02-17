@@ -290,6 +290,19 @@ static void testDifferenceMultisetAndSet(){
     std::cout << test_name << '\n';
 }
 
+static void testDifferenceSetSet() {
+    std::multiset<int> s1 = {1, 1, 2, 3, 4, 5};
+    std::multiset<int> expectedDifference = {1, 4, 5};
+    auto calculatedDifference = difference(s1, std::set<int>{1, 2, 3});
+    if(calculatedDifference != expectedDifference) {
+        std::cout << "[FAIL] ";
+    } else {
+        std::cout << "[PASS] ";
+    }
+    const std::string test_name = "Difference of set and ...";
+    std::cout << test_name << '\n';
+}
+
 static void runTests() {
     testCombinationsWithoutRepetitionInt();
     testCombinationsWithoutRepetitionChar();
@@ -304,6 +317,7 @@ static void runTests() {
     testArrangemetsWithRepetitionInt();
     testDifferenceSets();
     testDifferenceMultisetAndSet();
+    testDifferenceSetSet();
 }
 
 

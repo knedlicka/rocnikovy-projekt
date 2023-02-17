@@ -176,63 +176,51 @@ std::set <std::vector<T>> arrangements_without_repetitions(std::set <T> &s, int 
  * @return Difference of s1 and s2
  */
 template<typename T, typename U>
-T difference(T &s1, U &s2) {
-    T diff;
-    for (auto x: s1) {
-        if (s2.find(x) == s2.end()) {
-            diff.insert(x);
-        } else {
-            s2.erase(s2.find(x));
+T difference(T s1, const U &s2) {
+    T diff = s1;
+    for(auto x : s2) {
+        if (s1.find(x) != s1.end()) {
+            diff.erase(diff.find(x));
         }
     }
     return diff;
 }
 
-template<typename T, typename U, typename V>
+template<typename T>
 class Solution {
-    U s;
+    std::multiset<T> s;
 
-    void print_why(U found, U expected) {
-        U diff = difference(found, expected);
-        T diff2 = difference(expected, found);
-        if (diff.size() > 0) {
-            std::cout << "Found: " << std::endl;
-            for (auto x: found) {
-                std::cout << x << " ";
-            }
-            std::cout << std::endl;
-            std::cout << "Expected: " << std::endl;
-            for (auto x: expected) {
-                std::cout << x << " ";
-            }
-            std::cout << std::endl;
-            std::cout << "Difference of found and expected: " << std::endl;
-            for (auto x: diff) {
-                std::cout << x << " ";
-            }
-            std::cout << std::endl;
-            std::cout << "Difference of expected and found: " << std::endl;
-            for (auto x: diff2) {
-                std::cout << x << " ";
-            }
-            std::cout << std::endl;
-        }
+    void explain(std::multiset<T> s1, std::multiset<T> s2) const {
+        std::cout << "Your solution is not correct." << "\n";
+        std::cout << "Size of your solution: " << s1.size() << "\n";
+        std::cout << "Size of expected solution: " << s2.size() << "\n";
+//        std::cout << "Your solution:" << std::endl;
+//        for (auto x: s1) {
+//            std::cout << x << std::endl;
+//        }
+//        std::cout << "Expected solution: " << std::endl;
+//        for (auto x: s2) {
+//            std::cout << x << std::endl;
+//        }
     }
-
 public:
-    Solution(U solution) {
-        s = solution;
+    Solution() {
+        s = std::multiset<T>();
+    };
+
+    Solution(std::multiset<T> s) {
+        this->s = s;
     }
 
-    bool operator==(const Solution<T, U, V> &other) const {
+    bool operator==(const Solution<T> &other) const {
         if (this->s == other.s) {
             return true;
         }
-        print_why(this->s, other.s);
+        explain(this->s, other.s);
         return false;
     }
 
-    void fill(V sol) {
+    void fill(T sol) {
         s.insert(sol);
     }
 };
