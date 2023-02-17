@@ -175,13 +175,11 @@ std::set <std::vector<T>> arrangements_without_repetitions(std::set <T> &s, int 
  * @return Difference of s1 and s2
  */
 template<typename T, typename U>
-T difference(T &s1, U &s2) {
-    T diff;
-    for (auto x: s1) {
-        if (s2.find(x) == s2.end()) {
-            diff.insert(x);
-        } else {
-            s2.erase(s2.find(x));
+T difference(T s1, const U &s2) {
+    T diff = s1;
+    for(auto x : s2) {
+        if (s1.find(x) != s1.end()) {
+            diff.erase(diff.find(x));
         }
     }
     return diff;
