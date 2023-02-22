@@ -20,7 +20,6 @@
  * @param combinations The set in which the combinations will be stored
  * @param combination Accumulator for the current combination
  */
-
 template<typename T>
 void
 generate_combinations_with_repetitions_(typename std::set<T>::iterator it, typename std::set<T>::iterator end_it, int k,
@@ -186,23 +185,54 @@ T difference(T s1, const U &s2) {
     return diff;
 }
 
+// ==================== OPERATORS ====================
+
+// Overload operator<< for std::multiset
+template<typename T>
+std::ostream & operator<<(std::ostream &os, const std::multiset<T> &con) {
+    os << "{ ";
+    for (auto &x: con) {
+        os << x << " ";
+    }
+    os << "}";
+    return os;
+}
+
+// Overload operator<< for std::set
+template<typename T>
+std::ostream & operator<<(std::ostream &os, const std::set<T> &con) {
+    os << "{ ";
+    for (auto &x: con) {
+        os << x << " ";
+    }
+    os << "}";
+    return os;
+}
+
+// Overload operator<< for std::vector
+template<typename T>
+std::ostream & operator<<(std::ostream &os, const std::vector<T> &con) {
+    os << "[ ";
+    for (auto &x: con) {
+        os << x << " ";
+    }
+    os << "]";
+    return os;
+}
+
+// Overload operator<< for std::pair
+template<typename T, typename U>
+std::ostream & operator<<(std::ostream &os, const std::pair<T, U> &con) {
+    os << "(" << con.first << ", " << con.second << ")";
+    return os;
+}
+
+
+//====================== SOLUTION ==============================
 template<typename T>
 class Solution {
     std::multiset<T> s;
 
-    void explain(std::multiset<T> s1, std::multiset<T> s2) const {
-        std::cout << "Your solution is not correct." << "\n";
-        std::cout << "Size of your solution: " << s1.size() << "\n";
-        std::cout << "Size of expected solution: " << s2.size() << "\n";
-//        std::cout << "Your solution:" << std::endl;
-//        for (auto x: s1) {
-//            std::cout << x << std::endl;
-//        }
-//        std::cout << "Expected solution: " << std::endl;
-//        for (auto x: s2) {
-//            std::cout << x << std::endl;
-//        }
-    }
 public:
     Solution() {
         s = std::multiset<T>();
@@ -216,8 +246,24 @@ public:
         if (this->s == other.s) {
             return true;
         }
-        explain(this->s, other.s);
         return false;
+    }
+
+    // The function prints your solution and the expected solution
+    void explain(Solution<T> &correct) const {
+        std::multiset<T> incor = this -> s;
+        std::multiset<T> cor =  correct.s;
+        std::cout << "Your solution is not correct." << "\n";
+        std::cout << "Size of your solution: " << incor.size() << "\n";
+        std::cout << "Size of expected solution: " << cor.size() << "\n";
+        std::cout << "Your solution:" << std::endl;
+        for (auto x: incor) {
+            std::cout << x << std::endl;
+        }
+        std::cout << "Expected solution: " << std::endl;
+        for (auto x: cor) {
+            std::cout << x << std::endl;
+        }
     }
 
     void fill(T sol) {

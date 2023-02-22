@@ -54,6 +54,7 @@ int main() {
         }
         if(ok) {
             sol2.fill(tanieriky2);
+            sol2.fill(tanieriky2); // tento riadok je tu len preto, aby sa vysledky RIESENIA 1 a RIESENIA 2 nezhodovali
         }
     }
 
@@ -62,6 +63,7 @@ int main() {
         std::cout << "OK" << std::endl;
     } else {
         std::cout << "NOK" << std::endl;
+        sol1.explain(sol2); //
     }
     return 0;
 }
