@@ -303,6 +303,54 @@ static void testDifferenceSetSet() {
     std::cout << test_name << '\n';
 }
 
+static void testCartesianProductIntInt() {
+    std::set<int> s1 = {1, 2, 3};
+    std::set<int> s2 = {4, 5, 6};
+    std::set<std::pair<int, int>> expectedPermutations = {
+            {1, 4},
+            {1, 5},
+            {1, 6},
+            {2, 4},
+            {2, 5},
+            {2, 6},
+            {3, 4},
+            {3, 5},
+            {3, 6}
+    };
+    auto calculatedCombinations = cartesian_product(s1, s2);
+    if(calculatedCombinations != expectedPermutations) {
+        std::cout << "[FAIL] ";
+    } else {
+        std::cout << "[PASS] ";
+    }
+    const std::string test_name = "Cartesian product, int";
+    std::cout << test_name << '\n';
+}
+
+void testCartesianProductIntChar() {
+    std::set<int> s1 = {1, 2, 3};
+    std::set<char> s2 = {'A', 'B', 'C'};
+    std::set<std::pair<int, char>> expectedPermutations = {
+            {1, 'A'},
+            {1, 'B'},
+            {1, 'C'},
+            {2, 'A'},
+            {2, 'B'},
+            {2, 'C'},
+            {3, 'A'},
+            {3, 'B'},
+            {3, 'C'}
+    };
+    auto calculatedCombinations = cartesian_product(s1, s2);
+    if(calculatedCombinations != expectedPermutations) {
+        std::cout << "[FAIL] ";
+    } else {
+        std::cout << "[PASS] ";
+    }
+    const std::string test_name = "Cartesian product, int, char";
+    std::cout << test_name << '\n';
+}
+
 static void runTests() {
     testCombinationsWithoutRepetitionInt();
     testCombinationsWithoutRepetitionChar();
@@ -318,6 +366,8 @@ static void runTests() {
     testDifferenceSets();
     testDifferenceMultisetAndSet();
     testDifferenceSetSet();
+    testCartesianProductIntInt();
+    testCartesianProductIntChar();
 }
 
 
