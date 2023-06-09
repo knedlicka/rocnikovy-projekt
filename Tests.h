@@ -323,21 +323,31 @@ static void testCartesianProductIntInt() {
     } else {
         std::cout << "[PASS] ";
     }
-    const std::string test_name = "Difference of sets";
+    const std::string test_name = "Cartesian product, int";
     std::cout << test_name << '\n';
 }
 
-static void testDifferenceMultisetAndSet(){
-    std::multiset<int> s1 = {1, 1, 2, 3, 4, 5};
-    std::set<int> s2 = {1, 2, 3};
-    std::multiset<int> expectedDifference = {1, 4, 5};
-    auto calculatedDifference = difference(s1, s2);
-    if(calculatedDifference != expectedDifference) {
+void testCartesianProductIntChar() {
+    std::set<int> s1 = {1, 2, 3};
+    std::set<char> s2 = {'A', 'B', 'C'};
+    std::set<std::pair<int, char>> expectedPermutations = {
+            {1, 'A'},
+            {1, 'B'},
+            {1, 'C'},
+            {2, 'A'},
+            {2, 'B'},
+            {2, 'C'},
+            {3, 'A'},
+            {3, 'B'},
+            {3, 'C'}
+    };
+    auto calculatedCombinations = cartesian_product(s1, s2);
+    if(calculatedCombinations != expectedPermutations) {
         std::cout << "[FAIL] ";
     } else {
         std::cout << "[PASS] ";
     }
-    const std::string test_name = "Difference of multiset and set";
+    const std::string test_name = "Cartesian product, int, char";
     std::cout << test_name << '\n';
 }
 
