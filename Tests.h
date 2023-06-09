@@ -262,6 +262,47 @@ static void testArrangemetsWithRepetitionInt() {
     std::cout << test_name << '\n';
 }
 
+static void testDifferenceSets() {
+    std::set<int> s1 = {1, 2, 3, 4, 5};
+    std::set<int> s2 = {1, 2, 3};
+    std::set<int> expectedDifference = {4, 5};
+    auto calculatedDifference = difference(s1, s2);
+    if(calculatedDifference != expectedDifference) {
+        std::cout << "[FAIL] ";
+    } else {
+        std::cout << "[PASS] ";
+    }
+    const std::string test_name = "Difference of sets";
+    std::cout << test_name << '\n';
+}
+
+static void testDifferenceMultisetAndSet(){
+    std::multiset<int> s1 = {1, 1, 2, 3, 4, 5};
+    std::set<int> s2 = {1, 2, 3};
+    std::multiset<int> expectedDifference = {1, 4, 5};
+    auto calculatedDifference = difference(s1, s2);
+    if(calculatedDifference != expectedDifference) {
+        std::cout << "[FAIL] ";
+    } else {
+        std::cout << "[PASS] ";
+    }
+    const std::string test_name = "Difference of multiset and set";
+    std::cout << test_name << '\n';
+}
+
+static void testDifferenceSetSet() {
+    std::multiset<int> s1 = {1, 1, 2, 3, 4, 5};
+    std::multiset<int> expectedDifference = {1, 4, 5};
+    auto calculatedDifference = difference(s1, std::set<int>{1, 2, 3});
+    if(calculatedDifference != expectedDifference) {
+        std::cout << "[FAIL] ";
+    } else {
+        std::cout << "[PASS] ";
+    }
+    const std::string test_name = "Difference of set and ...";
+    std::cout << test_name << '\n';
+}
+
 static void testCartesianProductIntInt() {
     std::set<int> s1 = {1, 2, 3};
     std::set<int> s2 = {4, 5, 6};
@@ -322,6 +363,9 @@ static void runTests() {
     testArrangemetsWithoutRepetitionInt();
     testArrangemetsWithoutRepetitionChar();
     testArrangemetsWithRepetitionInt();
+    testDifferenceSets();
+    testDifferenceMultisetAndSet();
+    testDifferenceSetSet();
     testCartesianProductIntInt();
     testCartesianProductIntChar();
 }

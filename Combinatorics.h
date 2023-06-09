@@ -10,6 +10,7 @@
 #include <set>
 #include <algorithm>
 #include <iostream>
+
 /**
  * Helper function for combinations_with_repetitions
  * @tparam T Type of elements from which combinations are formed
@@ -19,10 +20,11 @@
  * @param combinations The set in which the combinations will be stored
  * @param combination Accumulator for the current combination
  */
-
 template<typename T>
-void generate_combinations_with_repetitions_(typename std::set<T>::iterator it, typename std::set<T>::iterator end_it, int k, std::set<std::multiset<T>> &combinations, std::multiset<T> &combination) {
-    if(it == end_it) {
+void
+generate_combinations_with_repetitions_(typename std::set<T>::iterator it, typename std::set<T>::iterator end_it, int k,
+                                        std::set <std::multiset<T>> &combinations, std::multiset <T> &combination) {
+    if (it == end_it) {
         return;
     }
     if (combination.size() == k) {
@@ -45,9 +47,9 @@ void generate_combinations_with_repetitions_(typename std::set<T>::iterator it, 
  * @return A set of all combinations with repetitions of k elements from a given set
  */
 template<typename T>
-std::set<std::multiset<T>> combinations_with_repetitions(std::set<T> &s, int k) {
-    std::set<std::multiset<T>> ans;
-    std::multiset<T> combination;
+std::set <std::multiset<T>> combinations_with_repetitions(std::set <T> &s, int k) {
+    std::set <std::multiset<T>> ans;
+    std::multiset <T> combination;
     generate_combinations_with_repetitions_(s.begin(), s.end(), k, ans, combination);
     return ans;
 }
@@ -61,9 +63,9 @@ std::set<std::multiset<T>> combinations_with_repetitions(std::set<T> &s, int k) 
  * @return A set of all combinations without repetitions of k elements from a given set
  */
 template<typename T>
-std::set<std::set<T>> combinations_without_repetitions(std::set<T> &s, int k) {
+std::set <std::set<T>> combinations_without_repetitions(std::set <T> &s, int k) {
     int n = s.size();
-    std::vector<T> indexed_set(n);
+    std::vector <T> indexed_set(n);
     std::copy(s.begin(), s.end(), indexed_set.begin());
     std::vector<int> combination(n, 0);
     // Start with lexographically first combination
@@ -71,10 +73,10 @@ std::set<std::set<T>> combinations_without_repetitions(std::set<T> &s, int k) {
         combination[i] = 1;
     }
 
-    std::set<std::set<T>> ans;
+    std::set <std::set<T>> ans;
     // Generate all combinations
     do {
-        std::set<T> inst;
+        std::set <T> inst;
         for (int i = 0; i < n; i++) {
             if (combination[i]) {
                 inst.insert(indexed_set[i]);
@@ -93,12 +95,12 @@ std::set<std::set<T>> combinations_without_repetitions(std::set<T> &s, int k) {
  * @return A set of all permutations with repetitions of a given multiset
  */
 template<typename T>
-std::set<std::vector<T>> permutations_with_repetitions(std::multiset<T> &s) {
+std::set <std::vector<T>> permutations_with_repetitions(std::multiset <T> &s) {
     int n = s.size();
-    std::vector<T> permutation_with_rep(n);
+    std::vector <T> permutation_with_rep(n);
     std::copy(s.begin(), s.end(), permutation_with_rep.begin());
     sort(permutation_with_rep.begin(), permutation_with_rep.end());
-    std::set<std::vector<T>> ans;
+    std::set <std::vector<T>> ans;
     // Generate all permutations
     do {
         ans.insert(permutation_with_rep);
@@ -113,8 +115,8 @@ std::set<std::vector<T>> permutations_with_repetitions(std::multiset<T> &s) {
  * @return A set of all permutations without repetitions of a given set
  */
 template<typename T>
-std::set<std::vector<T>> permutations_without_repetitions(std::set<T> &s) {
-    std::multiset<T> ms(s.begin(), s.end());
+std::set <std::vector<T>> permutations_without_repetitions(std::set <T> &s) {
+    std::multiset <T> ms(s.begin(), s.end());
     // Generate all permutations without repetitions. We can use permutations with repetitions
     // because we have a set
     return permutations_with_repetitions(ms);
@@ -128,14 +130,14 @@ std::set<std::vector<T>> permutations_without_repetitions(std::set<T> &s) {
  * @return A multiset of all arrangements with repetitions of k elements from a given set
  */
 template<typename T>
-std::multiset<std::vector<T>> arrangements_with_repetitions(std::set<T> &s, int k){
+std::multiset <std::vector<T>> arrangements_with_repetitions(std::set <T> &s, int k) {
     // Generate all combinations with repetitions of k elements from a given set
-    std::set<std::multiset<T>> k_tuples = combinations_with_repetitions(s, k);
-    std::multiset<std::vector<T>> arrangements;
+    std::set <std::multiset<T>> k_tuples = combinations_with_repetitions(s, k);
+    std::multiset <std::vector<T>> arrangements;
     // Generate all permutations with repetitions of each combination
-    for(auto k_tuple : k_tuples){
-        std::set<std::vector<T>> permutations = permutations_with_repetitions(k_tuple);
-        for(auto arr : permutations){
+    for (auto k_tuple: k_tuples) {
+        std::set <std::vector<T>> permutations = permutations_with_repetitions(k_tuple);
+        for (auto arr: permutations) {
             arrangements.insert(arr);
         }
     }
@@ -150,14 +152,14 @@ std::multiset<std::vector<T>> arrangements_with_repetitions(std::set<T> &s, int 
  * @return A multiset of all arrangements without repetitions of k elements from a given set
  */
 template<typename T>
-std::set<std::vector<T>> arrangements_without_repetitions(std::set<T> &s, int k) {
+std::set <std::vector<T>> arrangements_without_repetitions(std::set <T> &s, int k) {
     // Generate all combinations without repetitions of k elements from a given set
-    std::set<std::set<T>> k_tuples = combinations_without_repetitions(s, k);
-    std::set<std::vector<T>> arrangements;
+    std::set <std::set<T>> k_tuples = combinations_without_repetitions(s, k);
+    std::set <std::vector<T>> arrangements;
     // Generate all permutations without repetitions of each combination
-    for(auto k_tuple : k_tuples){
-        std::set<std::vector<T>> permutations = permutations_without_repetitions(k_tuple);
-        for(auto arr : permutations){
+    for (auto k_tuple: k_tuples) {
+        std::set <std::vector<T>> permutations = permutations_without_repetitions(k_tuple);
+        for (auto arr: permutations) {
             arrangements.insert(arr);
         }
     }
@@ -181,5 +183,110 @@ std::set<std::pair<T, U>> cartesian_product(std::set<T> &s1, std::set<U> &s2) {
     }
     return ans;
 }
+
+/**
+ * Generate difference of two objects
+ * @tparam T Type of the first object
+ * @tparam U Type of the second object
+ * @param s1 The first object
+ * @param s2 The Second object
+ * @return Difference of s1 and s2
+ */
+template<typename T, typename U>
+T difference(T s1, const U &s2) {
+    T diff = s1;
+    for(auto x : s2) {
+        if (s1.find(x) != s1.end()) {
+            diff.erase(diff.find(x));
+        }
+    }
+    return diff;
+}
+
+// ==================== OPERATORS ====================
+
+// Overload operator<< for std::multiset
+template<typename T>
+std::ostream & operator<<(std::ostream &os, const std::multiset<T> &con) {
+    os << "{ ";
+    for (auto &x: con) {
+        os << x << " ";
+    }
+    os << "}";
+    return os;
+}
+
+// Overload operator<< for std::set
+template<typename T>
+std::ostream & operator<<(std::ostream &os, const std::set<T> &con) {
+    os << "{ ";
+    for (auto &x: con) {
+        os << x << " ";
+    }
+    os << "}";
+    return os;
+}
+
+// Overload operator<< for std::vector
+template<typename T>
+std::ostream & operator<<(std::ostream &os, const std::vector<T> &con) {
+    os << "[ ";
+    for (auto &x: con) {
+        os << x << " ";
+    }
+    os << "]";
+    return os;
+}
+
+// Overload operator<< for std::pair
+template<typename T, typename U>
+std::ostream & operator<<(std::ostream &os, const std::pair<T, U> &con) {
+    os << "(" << con.first << ", " << con.second << ")";
+    return os;
+}
+
+
+//====================== SOLUTION ==============================
+template<typename T>
+class Solution {
+    std::multiset<T> s;
+
+public:
+    Solution() {
+        s = std::multiset<T>();
+    };
+
+    Solution(std::multiset<T> s) {
+        this->s = s;
+    }
+
+    bool operator==(const Solution<T> &other) const {
+        if (this->s == other.s) {
+            return true;
+        }
+        return false;
+    }
+
+    // The function prints your solution and the expected solution
+    void explain(Solution<T> &correct) const {
+        std::multiset<T> incor = this -> s;
+        std::multiset<T> cor =  correct.s;
+        std::cout << "Your solution is not correct." << "\n";
+        std::cout << "Size of your solution: " << incor.size() << "\n";
+        std::cout << "Size of expected solution: " << cor.size() << "\n";
+        std::cout << "Your solution:" << std::endl;
+        for (auto x: incor) {
+            std::cout << x << std::endl;
+        }
+        std::cout << "Expected solution: " << std::endl;
+        for (auto x: cor) {
+            std::cout << x << std::endl;
+        }
+    }
+
+    void fill(T sol) {
+        s.insert(sol);
+    }
+};
 
 #endif //RP_COMBINATORICS_H
