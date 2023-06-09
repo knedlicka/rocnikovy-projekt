@@ -203,6 +203,25 @@ T difference(T s1, const U &s2) {
     return diff;
 }
 
+/**
+ * Generate difference of two objects
+ * @tparam T Type of the first object
+ * @tparam U Type of the second object
+ * @param s1 The first object
+ * @param s2 The Second object
+ * @return Difference of s1 and s2
+ */
+template<typename T, typename U>
+T difference(T s1, const U &s2) {
+    T diff = s1;
+    for(auto x : s2) {
+        if (s1.find(x) != s1.end()) {
+            diff.erase(diff.find(x));
+        }
+    }
+    return diff;
+}
+
 // ==================== OPERATORS ====================
 
 // Overload operator<< for std::multiset

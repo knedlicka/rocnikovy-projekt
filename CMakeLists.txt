@@ -3,4 +3,4 @@ project(rp)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(rp main.cpp Tests.h Combinatorics.h)
+add_executable(rp main.cpp Tests.h Combinatorics.h AuthorSolutions.h)

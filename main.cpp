@@ -1,5 +1,6 @@
 #include "Tests.h"
 #include "Combinatorics.h"
+#include "AuthorSolutions.h"
 
 int main() {
     runTests();
@@ -8,26 +9,6 @@ int main() {
 
     // ULOHA1: Mame 5 guliciek a 3 tanieriky. Kolkymi sposobmi vieme ich poukladat do tychto tanierikov,
     // tak aby v kazdom bola aspon jedna gulicka?
-
-    // RIESENIE 1:
-    // na zaciatku do kazdeho tanierika dame jednu gulku, zvysne rozdelime do tanierikov
-    Solution <std::vector<std::multiset<int>>> sol1;
-    std::multiset<int> zvysne_gulky_a_priehradky = {1, 1, -1, -1}; // 1 reprezentuje gulicku, -1 priehradku
-    for(auto rozdelenie : permutations_with_repetitions(zvysne_gulky_a_priehradky)) {
-        std::vector<std::multiset<int>> tanieriky(3, std::multiset<int>({1}));
-        // zistime do ktoreho tanierika kolko guliek patri
-        int ktory_tanierik = 0;
-        for (auto gulka : rozdelenie) {
-            if(gulka > -1) {
-                tanieriky[ktory_tanierik].insert(gulka);
-            } else {
-                ktory_tanierik++;
-            }
-        }
-        sol1.fill(tanieriky);
-    }
-
-
 
     //RIESENIE 2:
     // skusime vygenerovat vsetky riesenia a odstranime tie, ktore do aspon jedneho tanierika nedaju aspon jednu gulicku
@@ -58,12 +39,15 @@ int main() {
         }
     }
 
+    // RIESENIE 1: (z AuthorSolutions.h)
+    Solution <std::vector<std::multiset<int>>> sol1 = task1();
+
     // porovname vysledky RIESENIA 1 a RIESENIA 2
-    if(sol1 == sol2) {
+    if(sol2 == sol1) {
         std::cout << "OK" << std::endl;
     } else {
         std::cout << "NOK" << std::endl;
-        sol1.explain(sol2); //
+        sol2.explain(sol1);
     }
     return 0;
 }
